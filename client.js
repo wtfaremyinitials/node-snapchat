@@ -234,3 +234,20 @@ Client.prototype.getMyStories = function(cb) {
         return data.stories_response.my_stories;
     }).nodeify(cb);
 };
+
+/**
+ * Add a snap to your story
+ * @param {String} mediaId of the snap to send
+ * @param {Number} How long (in seconds) a snap should be visible. This should only be set if the snap is a picture. (Optional)
+ * @return {Promise}
+ */
+Client.prototype.sendStory = function(id, isVideo, timeOrCb, cb) {
+    var time;
+    if(typeof timeOrCb === 'function') {
+        cb = timeOrCb;
+        time = 5;
+    } else {
+        time = timeOrCb;
+    }
+    return sc.sendStory(this.username, this.auth_token, id, isVideo, time, cb).nodeify(cb);
+};
